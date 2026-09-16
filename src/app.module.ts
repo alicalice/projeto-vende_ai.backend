@@ -12,13 +12,14 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
     TypeOrmModule.forRoot({
       type:'mysql',
-      host:'localhost',
-      'port':3306,
-      username:'root',
-      password:'root',
-      database:'vendeai',
+      host: process.env.DB_HOST || 'localhost',
+      port: Number(process.env.DB_PORT) || 3306,
+      username: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || 'root',
+      database: process.env.DB_NAME || 'vendeai',
       autoLoadEntities:true,
-      synchronize:true
+      synchronize:true,
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
     })
     ,
     ProductsModule,
